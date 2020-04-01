@@ -81,10 +81,6 @@ class IteratorFacade {
     return asDerivedConst().equal(rhs);
   }
 
-  bool operator!=(D const& rhs) const {
-    return !operator==(rhs);
-  }
-
   /*
    * Allow for comparisons between this and an iterator of some other class.
    * (e.g. a const_iterator version of this, the probable use case).
@@ -99,11 +95,6 @@ class IteratorFacade {
       std::enable_if_t<std::is_convertible<D, D2>::value, int> = 0>
   bool operator==(D2 const& rhs) const {
     return D2(asDerivedConst()) == rhs;
-  }
-
-  template <class D2>
-  bool operator!=(D2 const& rhs) const {
-    return !operator==(rhs);
   }
 
   V& operator*() const {
