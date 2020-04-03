@@ -81,6 +81,12 @@ class IteratorFacade {
     return asDerivedConst().equal(rhs);
   }
 
+#if __clang_major__ < 10
+  bool operator!=(D const& rhs) const {
+    return !operator==(rhs);
+  }
+#endif
+
   /*
    * Allow for comparisons between this and an iterator of some other class.
    * (e.g. a const_iterator version of this, the probable use case).
@@ -96,6 +102,13 @@ class IteratorFacade {
   bool operator==(D2 const& rhs) const {
     return D2(asDerivedConst()) == rhs;
   }
+
+#if __clang_major__ < 10
+  template <class D2>
+  bool operator!=(D2 const& rhs) const {
+    return !operator==(rhs);
+  }
+#endif
 
   V& operator*() const {
     return asDerivedConst().dereference();
